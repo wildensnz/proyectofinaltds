@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using SistemaInventario.DataContext;
+
 var builder = WebApplication.CreateBuilder(args);
+
+ConfigurationManager configuration = builder.Configuration;
+
+var cnn = configuration.GetConnectionString("cnn");
+builder.Services.AddDbContext<InventarioDbContext>(options => options.UseSqlServer(cnn));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

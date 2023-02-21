@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SistemaInventario.DataContext;
 using SistemaInventario.Models;
 using System.Diagnostics;
 
@@ -7,14 +8,17 @@ namespace SistemaInventario.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly InventarioDbContext dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, InventarioDbContext _dbContext)
         {
             _logger = logger;
+            dbContext= _dbContext;
         }
 
         public IActionResult Index()
         {
+            int countUser = dbContext.Usuarios.Count();
             return View();
         }
 
