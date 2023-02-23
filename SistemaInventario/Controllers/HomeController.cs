@@ -18,7 +18,7 @@ namespace SistemaInventario.Controllers
 
         public IActionResult Index()
         {
-            int countUser = dbContext.Usuarios.Count();
+            //int countUser = dbContext.Usuarios.Count();
             return View();
         }
 
