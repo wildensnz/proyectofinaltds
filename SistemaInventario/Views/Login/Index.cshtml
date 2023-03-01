@@ -24,7 +24,7 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    <form id="formLogin" action="#" autocomplete="off">
+                    <form id="formLogin" action="" autocomplete="off">
                         <input name="ReturnUrl" type="hidden" value="@Context.Request.Query["ReturnUrl"].ToString()"/>
                         <div class="form-group">
                             <label>Correo electronico</label>
@@ -61,7 +61,7 @@
 
 @section Scripts {
 <script>
-$("btnEntrar").click(function(event){
+$("#btnEntrar").click(function(event){
     event.preventDefault();
     debugger;
     var form = $(this).closest('form');
@@ -70,7 +70,7 @@ $("btnEntrar").click(function(event){
         return;
     }
     var formData = new FormData($("#formLogin")[0]);
-    system.save(urlGeneral + 'Login/Validate' , formData, function(response) {
+            system.save(urlGeneral + 'Login/Validate', formData, function (response) {
         if(response.isSuccess == true){
             swal.fire({
                 title: "",
@@ -81,7 +81,7 @@ $("btnEntrar").click(function(event){
             });
         } else{
             swal.fire({
-                title = "",
+                title: "",
                 text: response.message,
                 type: "error",
                 confirmButtonClass: "btn btn-success btn-flat m-b-30 m-t-30",
