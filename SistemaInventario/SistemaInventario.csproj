@@ -13,10 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InventarioModelo\InventarioModelo.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <ProjectReference Include="..\InventarioViewModel\InventarioViewModel.csproj" />
   </ItemGroup>
 
 </Project>
