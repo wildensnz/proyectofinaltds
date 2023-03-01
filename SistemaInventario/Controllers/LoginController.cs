@@ -24,7 +24,7 @@ namespace SistemaInventario.Controllers
         public async Task<ActionResult<Response>> Validate(string user, string password, string ReturnUrl, bool RememberLogin = false)
         {
             var valiUser = await dbContext.Usuarios.Where(c=> c.Email == user && c.Clave == password).FirstOrDefaultAsync();
-            if (valiUser != null)
+            if (valiUser == null)
             {
                 return new Response
                 {
