@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery@3.6.3",
+      "destination": "wwwroot/vendors/jey/jquery/"
+    },
+    {
+      "library": "jquery-ajaxy@1.6.1",
+      "destination": "wwwroot/vendors/aj/jquery-ajaxy/"
+    },
+    {
+      "library": "popper.js@2.11.6",
+      "destination": "wwwroot/vendors/popsmoke/popper.js/"
+    },
+    {
+      "library": "bootstrap@5.2.3",
+      "destination": "wwwroot/vendors/boot/bootstrap/"
+    },
+    {
+      "library": "jquery-validate@1.19.5",
+      "destination": "wwwroot/vendors/jeyvali/jquery-validate/"
+    },
+    {
+      "library": "validate.js@0.13.1",
+      "destination": "wwwroot/vendors/jeyvali/jquery-validate/vlli/validate.js/"
+    }
+  ]
+}
