@@ -1,17 +1,27 @@
-﻿using InventarioViewModel;
+﻿using InventarioHerramienta;
+using InventarioViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SistemaInventario.DataContext;
 using System.Security.Claims;
+
+
 
 namespace SistemaInventario.Controllers
 {
     public class LoginController : BaseController
     {
-        public LoginController(InventarioDbContext _dbContext) : base(_dbContext)
+        protected IOptions<HashingOptions> options;
+
+
+
+        public LoginController(InventarioDbContext _dbContext, IOptions<HashingOptions> _options) : base(_dbContext)
         {
+            this.options = _options;
         }
 
         public IActionResult Index()
@@ -21,17 +31,31 @@ namespace SistemaInventario.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Response>> Validate(string user, string password, string ReturnUrl, bool RememberLogin = false)
+        public async Task<ActionResult<Response>> Validate(InventarioViewModel.Login login)
         {
-            var valiUser = await dbContext.Usuarios.Where(c => c.Email == user && c.Clave == password).FirstOrDefaultAsync();
+            var valiUser = await dbContext.Usuarios.Where(c => c.Email == login.user).FirstOrDefaultAsync();
             if (valiUser == null)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "El usuario y/o contraseña son incorrectos"
+                    Message = "El usuario y/o no esta registrado"
                 };
             }
+
+            PasswordHasher passwordHasher = new PasswordHasher(options);
+            var check = passwordHasher.Check(valiUser.Clave, login.password);
+            if(check.Verified == false)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "El usuario y/o clave son incorrectos"
+                };
+            }
+
+
+
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier, Convert.ToString(valiUser.ID)),
@@ -44,13 +68,13 @@ namespace SistemaInventario.Controllers
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
             {
-                IsPersistent = RememberLogin
+                IsPersistent = login.rememberLogin
             });
 
             return new Response
             {
                 IsSuccess = true,
-                Url = ReturnUrl
+                Url = login.returnUrl
             };
 
         }

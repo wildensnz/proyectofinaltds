@@ -14,6 +14,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
            options.LoginPath = "/Login";
            options.Cookie.Name = "inventariotdscookie";
        });
+        builder.Services.AddCors(c =>
+        {
+            c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+        });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

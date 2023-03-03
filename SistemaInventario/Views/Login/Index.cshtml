@@ -69,26 +69,20 @@ $("#btnEntrar").click(function(event){
     if(!form.valid()){
         return;
     }
-            var formData = new FormData($("#formLogin")[0]);
-            system.save('Login/Validate', formData, function (response) {              
+            system.save
+            (urlGeneral + 'Login/Validate',
+            form,
+            function (response) {
+                $("#btnEntrar").prop('disabled', false)
                 if(response.isSuccess == true){
-                    swal.fire({
-                        title: "",
-                        text: response.message,
-                        type: "success",
-                        confirmButtonClass: "btn btn-success btn-flat m-b-30 m-t-30",
-                        allowOutsideClick: false
-                    });
-                } else{
-                    swal.fire({
-                        title: "",
-                        text: response.message,
-                        type: "error",
-                        confirmButtonClass: "btn btn-success btn-flat m-b-30 m-t-30",
-                        allowOutsideClick: false
-                    });
+                    window.location.href = urlGeneral + "Home";
+                    Swal.fire("Excelente", response.message, "success");
                 }
-    });
+                else{
+                    Swal.fire("Error", response.message, "error");
+                }
+            },
+            $("#btnEntrar"));
 
 });
 </script>
