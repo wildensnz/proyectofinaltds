@@ -1,0 +1,302 @@
+﻿@{
+    ViewData["Title"] = "Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="nk-content-inner">
+    <div class="nk-content-body">
+        <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+                <div class="nk-block-head-content">
+                    <h3 class="nk-block-title page-title">Productos</h3>
+                </div><!-- .nk-block-head-content -->
+                <div class="nk-block-head-content">
+                    <div class="toggle-wrap nk-block-tools-toggle">
+                        <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
+                            <em class="icon ni ni-more-v"></em>
+                        </a>
+                        <div class="toggle-expand-content" data-content="pageMenu">
+                            <ul class="nk-block-tools g-3">
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-right click-search">
+                                            <em class="icon ni ni-search"></em>
+                                        </div>
+                                        <input id="txtSearchInput" type="text" class="form-control input-search-text" placeholder="Buscar producto">
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="fw-bold m-1">Mostrar: </p>
+
+                                    <div class="form-group">
+                                        <div class="form-control-wrap ">
+                                            <select class="form-select showrecords">
+                                                <option value="10" selected>10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                @if (ViewBag.tPermiso.Agregar == true)
+                                {
+                                    <li class="nk-block-tools-opt">
+                                        <a href="#" data-target="addProducto" class="toggle btn btn-icon btn-primary d-md-none btn-add-usuario"><em class="icon ni ni-plus"></em></a>
+                                        <a href="#" data-target="addProducto" class="toggle btn btn-primary d-none d-md-inline-flex btn-add-usuario"><em class="icon ni ni-plus"></em><span>Agregar</span></a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head-content -->
+            </div><!-- .nk-block-between -->
+        </div><!-- .nk-block-head -->
+        <div id="divLista" class="nk-block">
+        </div><!-- .nk-block -->
+        <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addProducto" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
+            <div class="nk-block-head">
+                <div class="nk-block-head-content">
+                    <h5 class="nk-block-title">Producto</h5>
+                    <div class="nk-block-des">
+                        <p>Aquí puedes administrar tus productos.</p>
+                    </div>
+                </div>
+            </div><!-- .nk-block-head -->
+            <div class="nk-block">
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <form id="formSend" action="~/Productos/Save" class="form-validate is-alter" method="post" autocomplete="off" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img id="imglogotipo" class="thumb" src="~/images/imagen.png" alt="">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="form-label">Logotipo</label>
+                                        <div class="form-control-wrap">
+                                            <div class="form-file">
+                                                <input type="file" class="form-file-input" id="inputUpload" name="producto" required>
+                                                <label class="form-file-label" for="inputUpload">Selecciona la foto</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="codigo">Código</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="codigo" name="Codigo" maxlength="50" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="stock">Stock</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" class="form-control input-text-clear" id="stock" name="Stock" maxlength="10" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="nombre">Nombre</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control input-text-clear" id="nombre" name="Nombre" maxlength="150" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="descripcion">Descripcion</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control input-text-clear" id="descripcion" name="Descripcion" maxlength="250">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="modelo">Modelo</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="modelo" name="Modelo" maxlength="150">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="presentacion">Presentación</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="presentacion" name="Presentacion" maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="marca">Marca</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="marca" name="Marca" maxlength="150">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="presentacion">Costo</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" class="form-control input-text-clear" id="costo" name="Costo" maxlength="6">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="impuesto">Impuesto</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" list="list-impuestos" class="form-control input-text-clear" id="impuesto" name="Impuesto" maxlength="10">
+                                            <datalist id="list-impuestos">
+                                                @foreach (var item in ViewBag.Ipuestos)
+                                                {
+                                                    <option value="@item.Valor" />
+                                                }
+                                            </datalist>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="precioVenta">Precio Venta</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" class="form-control input-text-clear" id="precioVenta" name="PrecioVenta" maxlength="6">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="form-label">Empresa</label>
+                                <div class="form-control-wrap">
+                                    <select class="form-select input-text-clear" name="EmpresaId" id="empresaId">
+                                        <option value="">Selecciona una opción</option>
+                                        @foreach (var item in ViewBag.Empresas)
+                                        {
+                                            <option value="@item.Id">@item.Nombre</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <input type="hidden" class="input-text-clear" id="txtId" name="Id" />
+                        </form>
+
+                    </div>
+
+                    <div class="col-7">
+                        <button id="btnSaveInfoModal" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Guardar información</span></button>
+
+                    </div>
+                    <div class="col-5">
+                        <button onclick="" class="toggle btn btn-light" data-target="addProducto"><em class="icon ni ni-arrow-right-c"></em><span>Cancelar</span></button>
+                    </div>
+                </div>
+
+
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+        $("#impuesto").change(function () {
+            calcularImpuesto();
+        });
+        $("#costo").keypress(function () {
+            calcularImpuesto();
+        });
+
+        function calcularImpuesto() {
+            let val1 = $("#impuesto").val();
+            let val2 = $("#costo").val();
+            let val3 = $("#precioVenta").val();
+            if (isNumeric(val1) && isNumeric(val2)) {
+                let imp = parseFloat(val1) * parseFloat(val2);
+                imp = imp / 100;
+                val3 = imp + parseFloat(val2);
+                $("#precioVenta").val(val3);
+            }
+
+        }
+
+        function isNumeric(num) {
+            return !isNaN(parseInt(num))
+        }
+
+
+        loadDiv("?reg=" + $(".showrecords").val())
+        function loadDiv(parametros) {
+            $("#divLista").load(urlGeneral + "Productos/Lista" + parametros, function () { });
+        }
+
+        $(".showrecords").change(function () {
+            loadDiv("?page=1&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val());
+        });
+
+        $('.input-search-text').keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                loadDiv("?page=1&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val());
+            }
+        });
+
+        $(".click-search").click(function () {
+            loadDiv("?page=1&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val());
+        });
+        $(".btn-add-usuario").click(function () {
+            $(".input-text-clear").val("");
+            $("#empresaId").trigger('change');
+        })
+
+        $("#btnSaveInfoModal").click(function (event) {
+            event.preventDefault();
+            var form = $("#formSend");
+            form.validate();
+            if (!form.valid()) {
+                return;
+            }
+            system.saveUpload(
+                urlGeneral + 'Productos/Save',
+                form, function (response) {
+                    $("#btnSaveInfoModal").prop('disabled', false)
+                    if (response.isSuccess == true) {
+                        loadDiv("?page=1&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val())
+                        system.clear(form);
+                        Swal.fire("Excelente!", response.message, "success");
+                    } else {
+                        Swal.fire("Error!", response.message, "error");
+                    }
+                },
+                $("#btnSaveInfoModal"));
+        });
+
+        $("#inputUpload").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imglogotipo').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+
+    </script>
+}

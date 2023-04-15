@@ -1,4 +1,5 @@
 ﻿using InventarioHerramienta;
+using InventarioHerramienta.Interfaces;
 using InventarioViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -17,9 +18,8 @@ namespace SistemaInventario.Controllers
     {
         protected IOptions<HashingOptions> options;
 
-
-
-        public LoginController(InventarioDbContext _dbContext, IOptions<HashingOptions> _options) : base(_dbContext)
+        public LoginController(IMailService _mailSender, InventarioDbContext _dbContext,
+            IOptions<HashingOptions> _options) : base(_mailSender, _dbContext)
         {
             this.options = _options;
         }
@@ -29,39 +29,40 @@ namespace SistemaInventario.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<ActionResult<Response>> Validate(InventarioViewModel.Login login)
         {
-            var valiUser = await dbContext.Usuarios.Where(c => c.Email == login.user).FirstOrDefaultAsync();
+
+            var valiUser = await dbContext.Usuarios.Where(c => c.Email == login.user).Include(c => c.Roles).FirstOrDefaultAsync();
             if (valiUser == null)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "El usuario y/o no esta registrado"
+                    Message = "El usuario no esta registrado en el sistema."
                 };
             }
 
+
             PasswordHasher passwordHasher = new PasswordHasher(options);
-            var check = passwordHasher.Check(valiUser.Clave, login.password);
-            if(check.Verified == false)
+            var checar = passwordHasher.Check(valiUser.Password, login.password);
+            if (checar.Verified == false)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "El usuario y/o clave son incorrectos"
+                    Message = "El usuario y/o contraseña son incorrectos"
                 };
             }
 
-
-
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.NameIdentifier, Convert.ToString(valiUser.ID)),
-                new Claim(ClaimTypes.Name, valiUser.Nombre),
-                new Claim(ClaimTypes.Role, valiUser.Roles.Rol),
-                new Claim("Estatus", valiUser.Estatus.ToString()),  
+            var claims = new List<Claim>() {
+                    new Claim(ClaimTypes.NameIdentifier, Convert.ToString(valiUser.Id)),
+                        new Claim(ClaimTypes.Name, valiUser.Nombre),
+                        new Claim(ClaimTypes.Role, valiUser.Roles.Rol),
+                        new Claim("Estatus", valiUser.Estatus.ToString()),
+                        new Claim("Mail", valiUser.Email.ToString()),
+                         new Claim("UsuarioId", valiUser.Id.ToString()),
+                         new Claim("RolId", valiUser.Roles.Id.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -77,6 +78,14 @@ namespace SistemaInventario.Controllers
                 Url = login.returnUrl
             };
 
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            //SignOutAsync is Extension method for SignOut    
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //Redirect to home page    
+            return LocalRedirect("/Login");
         }
     }
 }

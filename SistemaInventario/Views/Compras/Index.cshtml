@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Compras";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="nk-content-inner">
+    <div class="nk-content-body">
+        <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+                <div class="nk-block-head-content">
+                    <h3 class="nk-block-title page-title">Compras</h3>
+                </div><!-- .nk-block-head-content -->
+                <div class="nk-block-head-content">
+                    <div class="toggle-wrap nk-block-tools-toggle">
+                        <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
+                            <em class="icon ni ni-more-v"></em>
+                        </a>
+                        <div class="toggle-expand-content" data-content="pageMenu">
+                            <ul class="nk-block-tools g-3">
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-right click-search">
+                                            <em class="icon ni ni-search"></em>
+                                        </div>
+                                        <input id="txtSearchInput" type="text" class="form-control input-search-text" placeholder="Buscar factura">
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="fw-bold m-1">Mostrar: </p>
+
+                                    <div class="form-group">
+                                        <div class="form-control-wrap ">
+                                            <select class="form-select showrecords">
+                                                <option value="10" selected>10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                @if (ViewBag.tPermiso.Agregar == true)
+                                {
+                                    <li class="nk-block-tools-opt">
+                                        <a href="~/detalleCompra" class=" btn btn-icon btn-primary d-md-none btn-add-usuario"><em class="icon ni ni-plus"></em></a>
+                                        <a href="~/detalleCompra" class=" btn btn-primary d-none d-md-inline-flex btn-add-usuario"><em class="icon ni ni-plus"></em><span>Agregar</span></a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head-content -->
+            </div><!-- .nk-block-between -->
+        </div><!-- .nk-block-head -->
+        <div id="divLista" class="nk-block">
+        </div><!-- .nk-block -->
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+        loadDiv("?reg=" + $(".showrecords").val())
+        function loadDiv(parametros) {
+            $("#divLista").load(urlGeneral + "Compras/Lista" + parametros, function () { });
+        }
+
+        $(".showrecords").change(function () {
+            loadDiv("?page=1&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val());
+        });
+
+        $('.input-search-text').keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                loadDiv("?page=1&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val());
+            }
+        });
+
+        $(".click-search").click(function () {
+            loadDiv("?page=1&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val());
+        });
+
+
+    </script>
+}

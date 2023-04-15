@@ -1,0 +1,254 @@
+﻿@model IEnumerable<InventarioModelo.Roles>
+<div class="card">
+    <div class="card-inner-group">
+        <div class="card-inner p-0">
+            <div class="nk-tb-list">
+                <div class="nk-tb-item nk-tb-head">
+                    <div class="nk-tb-col nk-tb-col-check">
+                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                            <input type="checkbox" class="custom-control-input control-checkbox-all" id="pid">
+                            <label class="custom-control-label" for="pid"></label>
+                        </div>
+                    </div>
+                    <div class="nk-tb-col tb-col-sm"><span>Rol</span></div>
+                    <div class="nk-tb-col"><span>Usuarios</span></div>
+                    <div class="nk-tb-col"><span>Fecha</span></div>
+                    <div class="nk-tb-col nk-tb-col-tools">
+                        <ul class="nk-tb-actions gx-1 my-n1">
+                            <li class="me-n1">
+                                <div class="dropdown">
+                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <ul class="link-list-opt no-bdr">
+                                            <li><a href="#" class="opc-delete-all"><em class="icon ni ni-trash"></em><span>Eliminar seleccionados</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div><!-- .nk-tb-item -->
+                @foreach (var item in Model)
+                {
+                    <div class="nk-tb-item">
+                        <div class="nk-tb-col nk-tb-col-check">
+                            @if (item.Id > 1)
+                            {
+                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                    <input type="checkbox" class="custom-control-input control-checkbox" data-value="@item.Id" id="@Html.Raw("pid" + item.Id)">
+                                    <label class="custom-control-label" for="@Html.Raw("pid" + item.Id)"></label>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="nk-tb-col tb-col-sm">
+                            <span class="tb-product">
+                                <span class="title">@item.Rol</span>
+                            </span>
+                        </div>
+                        <div class="nk-tb-col">
+                            <span class="tb-sub">@item.TotalUsuarios</span>
+                        </div>
+                        <div class="nk-tb-col">
+                            <span class="tb-sub">@item.Fecha.ToString("dd") de @item.Fecha.ToString("MMMM") de @item.Fecha.ToString("yyyy")</span>
+                        </div>
+                        <div class="nk-tb-col nk-tb-col-tools">
+                            @if (item.Id > 1)
+                            {
+                                <ul class="nk-tb-actions gx-1 my-n1">
+                                    <li class="me-n1">
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="#" data-target="addRol" class="opc-edit toggleList" data-value="@item.Id"><em class="icon ni ni-edit"></em><span>Modificar</span></a></li>
+                                                    @* <li><a href="#"><em class="icon ni ni-eye"></em><span>View Product</span></a></li>
+                                            <li><a href="#"><em class="icon ni ni-activity-round"></em><span>Product Orders</span></a></li>*@
+                                                    <li><a href="#" class="opc-delete" data-value="@item.Id"><em class="icon ni ni-trash "></em><span>Eliminar</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+
+                        </div>
+                    </div>
+                }
+
+
+            </div><!-- .nk-tb-list -->
+        </div>
+        @if (ViewBag.Pager.TotalPages > 1)
+        {
+            <div class="card-inner">
+                <div class="nk-block-between-md g-3">
+                    <div class="g">
+                        <ul class="pagination justify-content-center justify-content-md-start">
+                            @foreach (var item in ViewBag.Pager.Pages)
+                            {
+                                if (item == ViewBag.Pager.StartPage)
+                                {
+                                    <li class="page-item"><a class="page-link" href="#" data-value="@item"><em class="icon ni ni-chevrons-left"></em></a></li>
+                                }
+                                if (item == ViewBag.Pager.CurrentPage)
+                                {
+                                    <li class="page-item active"><span class="page-link">@item</span></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item"><a class="page-link" href="#" data-value="@item">@item</a></li>
+                                }
+                                if (item == ViewBag.Pager.EndPage)
+                                {
+                                    <li class="page-item"><a class="page-link" href="#" data-value="@item"><em class="icon ni ni-chevrons-right"></em></a></li>
+                                }
+
+                            }
+                        </ul><!-- .pagination -->
+                    </div>
+                    <div class="g">
+                        <div class="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
+                            <div>Pagina</div>
+                            <div>
+                                <select id="slctPage" class="form-select js-select2" data-search="on" data-dropdown="xs center">
+                                    @for (int i = 1; i <= ViewBag.Pager.TotalPages; i++)
+                                    {
+                                        if (i == ViewBag.Pager.CurrentPage)
+                                        {
+                                            <option value="@i" selected>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                            <div>de @ViewBag.Pager.TotalPages</div>
+                        </div>
+                    </div><!-- .pagination-goto -->
+                </div><!-- .nk-block-between -->
+            </div>
+        }
+
+    </div>
+</div>
+<script>
+    $(".page-link").click(function (event) {
+        event.preventDefault();
+        var item = "?page=" + $(this).data("value") + "&texto=" + $("#txtSearchRoles").val();
+        loadDiv(item)
+    });
+
+    $("#slctPage").on('change', function () {
+        loadDiv("?page=" + $(this).val() + "&texto=" + $("#txtSearchRoles").val());
+    });
+
+
+    $(".control-checkbox-all").click(function () {
+        $(".control-checkbox").each(function () {
+            if ($(this).is(':checked') == false) {
+                $(this).trigger("click");
+            }
+        });
+    })
+
+    NioApp.TGL.content('.toggleList');
+
+    $(".opc-edit").click(function (event) {
+        event.preventDefault();
+        var item = $(this);
+        system.get(
+            urlGeneral + 'Roles/Permisos?Id=' + $(item).data("value"),
+            function (response) {
+                if (response.isSuccess == true) {
+                    $("#rol").val(response.result.rol);
+                    $("#txtId").val(response.result.id);
+                    cargaPermisos(response.result.permisosViewModels)
+                } else {
+                    Swal.fire("Error!", response.message, "error");
+                }
+            });
+    });
+
+    $(".opc-delete").click(function (event) {
+        event.preventDefault();
+        var val = $(this).data("value");
+        deleteRol(val);
+    });
+
+    $(".opc-delete-all").click(function () {
+        var val = "";
+        $(".control-checkbox").each(function () {
+            if ($(this).is(':checked')) {
+                val += $(this).data("value") + "|";
+            }
+        });
+        if (val == "")
+            Swal.fire("Información!", "Debes seleccionar los roles que quieres eliminar", "info");
+        else
+            deleteRol(val);
+    });
+
+    function deleteRol(val) {
+        Swal.fire({
+            title: 'Eliminar',
+            text: '¿Está seguro que deseas eliminar el registro?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                system.get(
+                    urlGeneral + 'Roles/Delete?Id=' + val,
+                    function (response) {
+                        if (response.isSuccess == true) {
+                            loadDiv("?page=1&texto=" + $("#txtSearchRoles").val())
+                            Swal.fire("Excelente!", response.message, "success");
+                        } else {
+                            Swal.fire("Error!", response.message, "error");
+                        }
+                    });
+            }
+        })
+    }
+
+    function cargaPermisos(items) {
+        $('.check-permiso[data-value]').each(function () {
+            var itemActual = $(this);
+            items.forEach(function (item) {
+                if ($(itemActual).data("value") == item.modulo) {
+                    switch ($(itemActual).data("permiso")) {
+                        case "Ver":
+                            updateElemntPermiso(item.ver, itemActual);
+                            break;
+                        case "Agregar":
+                            updateElemntPermiso(item.agregar, itemActual);
+                            break;
+                        case "Modificar":
+                            updateElemntPermiso(item.modificar, itemActual);
+                            break;
+                        default:
+                            updateElemntPermiso(item.eliminar, itemActual);
+                    }
+                }
+            });
+
+        });
+    }
+
+    function updateElemntPermiso(valor, element) {
+        if (valor == true) {
+            $(element).prop("checked", true)
+            $(element).parent().addClass("checked")
+        }
+        else {
+            $(element).prop("checked", false)
+            $(element).parent().removeClass("checked")
+        }
+    }
+
+</script>

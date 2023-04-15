@@ -1,0 +1,270 @@
+﻿@{
+    ViewData["Title"] = "Empresas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="nk-content-inner">
+    <div class="nk-content-body">
+        <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+                <div class="nk-block-head-content">
+                    <h3 class="nk-block-title page-title">Empresa</h3>
+                </div><!-- .nk-block-head-content -->
+                <div class="nk-block-head-content">
+                    <div class="toggle-wrap nk-block-tools-toggle">
+                        <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
+                            <em class="icon ni ni-more-v"></em>
+                        </a>
+                        <div class="toggle-expand-content" data-content="pageMenu">
+                            <ul class="nk-block-tools g-3">
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-right click-search">
+                                            <em class="icon ni ni-search"></em>
+                                        </div>
+                                        <input id="txtSearchEmpresa" type="text" class="form-control input-search-text" placeholder="Buscar empresa">
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="fw-bold m-1">Mostrar: </p>
+
+                                    <div class="form-group">
+                                        <div class="form-control-wrap ">
+                                            <select class="form-select showrecords">
+                                                <option value="10" selected>10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nk-block-tools-opt">
+                                    <a href="#" data-target="addEmpresa" class="toggle btn btn-icon btn-primary d-md-none btn-add-empresa"><em class="icon ni ni-plus"></em></a>
+                                    <a href="#" data-target="addEmpresa" class="toggle btn btn-primary d-none d-md-inline-flex btn-add-empresa"><em class="icon ni ni-plus"></em><span>Agregar</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head-content -->
+            </div><!-- .nk-block-between -->
+        </div><!-- .nk-block-head -->
+        <div id="divLista" class="nk-block">
+        </div><!-- .nk-block -->
+        <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addEmpresa" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
+            <div class="nk-block-head">
+                <div class="nk-block-head-content">
+                    <h5 class="nk-block-title">Empresa</h5>
+                    <div class="nk-block-des">
+                        <p>Aquí puedes crear las empresa, sucursales y almacenes que necesites.</p>
+                    </div>
+                </div>
+            </div><!-- .nk-block-head -->
+            <div class="nk-block">
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <form id="formSend" action="~/Empresa/Save" class="form-validate is-alter" method="post" autocomplete="off" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img id="imglogotipo" class="thumb" src="~/images/imagen.png" alt="">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="form-label">Logotipo</label>
+                                        <div class="form-control-wrap">
+                                            <div class="form-file">
+                                                <input type="file" class="form-file-input" id="inputUpload" name="LogoId" required>
+                                                <label class="form-file-label" for="inputUpload">Selecciona el logo</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="form-label" for="nombre">Nombre</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control input-text-clear" id="nombre" name="Nombre" maxlength="100" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="descripcion">Descripción</label>
+                                <div class="form-control-wrap">
+                                    <textarea class="form-control input-text-clear" id="descripcion" name="Descripcion" maxlength="500" rows="3" style="height: 80px !important;min-height: 80px !important;"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="correoElectronico">Correo electrónico</label>
+                                        <div class="form-control-wrap">
+                                            <input type="email" class="form-control input-text-clear" id="correoElectronico" name="CorreoElectronico" maxlength="150" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="telefono">Teléfono</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="telefono" name="Telefono" maxlength="25" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-label">Moneda</label>
+                                <div class="form-control-wrap">
+                                    <select class="form-select input-text-clear" name="MonedaId" id="monedaId">
+                                        <option value="">Selecciona una opción</option>
+                                        @foreach (var item in ViewBag.Monedas)
+                                        {
+                                            <option value="@item.Id">@item.Pais (@item.Moneda @item.Codigo @item.Simbolo)</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="calle">Calle</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="calle" name="Calle" maxlength="150">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="ciudad">Ciudad</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="ciudad" name="Ciudad" maxlength="150">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 mt-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="estado">Estado/Región/Provincia</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="estado" name="Estado" maxlength="150">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="codigoPostal">CP</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="codigoPostal" name="CodigoPostal" maxlength="5">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label class="form-label">País</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-select input-text-clear" name="PaisId" id="paisId" required>
+                                                <option value="">Selecciona una opción</option>
+                                                @foreach (var item in ViewBag.tPaises)
+                                                {
+                                                    <option value="@item.Id">@item.Texto</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Tipo</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-select input-text-clear" name="TipoEmpresaId" id="tipoEmpresaId" required>
+                                                <option value="">Selecciona una opción</option>
+                                                @foreach (var item in ViewBag.tEmpresa)
+                                                {
+                                                    <option value="@item.Id">@item.Texto</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="input-text-clear" id="txtId" name="Id" />
+                        </form>
+
+                    </div>
+
+                    <div class="col-12">
+                        <button id="btnSaveInfoModal" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Guardar información</span></button>
+
+                    </div>
+                </div>
+
+
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        loadDiv("?reg=" + $(".showrecords").val())
+        function loadDiv(parametros) {
+            $("#divLista").load(urlGeneral + "Empresa/Lista" + parametros, function() { });
+        }
+
+        $(".showrecords").change(function() {
+            loadDiv("?page=1&texto=" + $("#txtSearchEmpresa").val() + "&reg=" + $(".showrecords").val());
+        });
+
+        $('.input-search-text').keypress(function(event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                loadDiv("?page=1&texto=" + $("#txtSearchEmpresa").val() + "&reg=" + $(".showrecords").val());
+            }
+        });
+
+        $(".click-search").click(function() {
+            loadDiv("?page=1&texto=" + $("#txtSearchEmpresa").val() + "&reg=" + $(".showrecords").val());
+        });
+        $(".btn-add-empresa").click(function() {
+            $(".input-text-clear").val("");
+            $("#inputUpload").prop("required", true)
+            $("#inputUpload").val("").trigger('change');
+            $("#inputUpload").next().text("Selecciona el logo");;
+            $('#imglogotipo').attr('src', '/images/imagen.png');
+        })
+
+        $("#btnSaveInfoModal").click(function(event) {
+
+            event.preventDefault();
+            var form = $("#formSend");
+            form.validate();
+            if (!form.valid()) {
+                return;
+            }
+            system.saveUpload(
+                urlGeneral + 'Empresa/Save',
+                form, function(response) {
+                    $("#btnSaveInfoModal").prop('disabled', false)
+                    if (response.isSuccess == true) {
+                        loadDiv("?page=1&texto=" + $("#txtSearchEmpresa").val() + "&reg=" + $(".showrecords").val())
+                        system.clear(form);
+                        Swal.fire("Excelente!", response.message, "success");
+                    } else {
+                        Swal.fire("Error!", response.message, "error");
+                    }
+                },
+                $("#btnSaveInfoModal"));
+        });
+
+        $("#inputUpload").change(function() {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imglogotipo').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+    </script>
+}

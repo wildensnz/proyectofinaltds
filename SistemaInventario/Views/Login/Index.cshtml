@@ -1,90 +1,79 @@
-﻿
+﻿@model InventarioViewModel.Login
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_layoutAuth.cshtml";
 }
 
-<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" lang="en">
-<!--<![endif]-->
-
-<body class="bg-dark">
-
-
-    <div class="sufee-login d-flex align-content-center flex-wrap">
-        <div class="container">
-            <div class="login-content">
-                <div class="login-logo">
-                    <a href="index.html">
-                        <img class="align-content" src="~/images/logo.png" alt="">
-                    </a>
-                </div>
-                <div class="login-form">
-                    <form id="formLogin" class="form-validate is-alter" action="" autocomplete="off">
-                        <input name="ReturnUrl" type="hidden" value="@Context.Request.Query["ReturnUrl"].ToString()"/>
-                        <div class="form-group">
-                            <label>Correo electronico</label>
-                            <input name="user" type="email" class="form-control" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Contraseña</label>
-                            <input name="password" type="password" class="form-control" placeholder="Contraseña" required>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"> Recordarme
-                            </label>
-                            <label class="pull-right">
-                                <a href="#">Olvidaste tu contraseña?</a>
-                            </label>
-                        </div>
-                        <button id="btnEntrar" type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Acceder</button>
-                        <div class="register-link m-t-15 text-center">
-                            <p>No tienes una cuenta creada? <a href="#"> Registrate aqui</a></p>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<div class="nk-block-head">
+    <div class="nk-block-head-content">
+        <h5 class="nk-block-title">Entrar al Sistema</h5>
+        <div class="nk-block-des">
+            <p>Bienvenido al Sistema de Inventarios.</p>
         </div>
     </div>
+</div><!-- .nk-block-head -->
+<form action="#" class="form-validate is-alter" autocomplete="off">
+    <div class="form-group">
+        <div class="form-label-group">
+            <label class="form-label" for="email-address">Correo Electrónico</label>
+        </div>
+        <div class="form-control-wrap">
+            <input name="user" autocomplete="off" type="email" class="form-control form-control-lg" required id="email-address" placeholder="Captura tu correo electrónico">
+        </div>
+    </div><!-- .form-group -->
+    <div class="form-group">
+        <div class="form-label-group">
+            <label class="form-label" for="password">Contraseña</label>
+            <a class="link link-primary link-sm" tabindex="-1" href="~/ResetUser">Olvidaste tu contraseña?</a>
+        </div>
+        <div class="form-control-wrap">
+            <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+            </a>
+            <input name="password" autocomplete="new-password" type="password" class="form-control form-control-lg" required id="password" placeholder="Captura tu contraseña">
+        </div>
+    </div><!-- .form-group -->
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                <input asp-for="rememberLogin" /> Recordar cuenta
+            </label>
+        </div>
+    </div>
+    <input name="returnUrl" type="hidden" value="@Context.Request.Query["ReturnUrl"].ToString()" />
+    @Html.HiddenFor(x => x.returnUrl)  
+    <div class="form-group">
+        <button id="btnEntrar" class="btn btn-lg btn-primary btn-block">Entrar al Sistema</button>
+    </div>
+</form><!-- form -->
+<div class="form-note-s2 pt-4">
+    Eres nuevo en el sistema? <a href="~/Register">Crear cuenta</a>
+</div>
 
 
-</body>
-
-</html>
-
-
-
-@section Scripts {
-<script>
-$("#btnEntrar").click(function(event){
-    event.preventDefault();
-    debugger;
-    var form = $(this).closest('form');
-    form.validate();
-    if(!form.valid()){
-        return;
+<!-- wrap s -->
+@section Scripts{
+    <script>
+        $("#btnEntrar").click(function (event) {
+            event.preventDefault();
+            var form = $(this).closest('form');
+            form.validate();
+            if (!form.valid()) {
+                return;
+            }
+            system.save(
+                urlGeneral + 'Login/Validate',
+                form, function (response) {
+                    $("#btnEntrar").prop('disabled', false)
+                    if (response.isSuccess == true) {
+                        window.location.href = urlGeneral + "Home";
+                        Swal.fire("Excelente!", response.message, "success");
+                    } else {
+                        Swal.fire("Error!", response.message, "error");
+                    }
+                },
+                $("#btnEntrar"));
+        });
+    </script>
     }
-            system.save
-            (urlGeneral + 'Login/Validate',
-            form,
-            function (response) {
-                $("#btnEntrar").prop('disabled', false)
-                if(response.isSuccess == true){
-                    window.location.href = urlGeneral + "Home";
-                    Swal.fire("Excelente", response.message, "success");
-                }
-                else{
-                    Swal.fire("Error", response.message, "error");
-                }
-            },
-            $("#btnEntrar"));
-
-});
-</script>
-}
-

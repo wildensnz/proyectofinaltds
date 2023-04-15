@@ -1,0 +1,498 @@
+﻿@{
+    ViewData["Title"] = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="nk-content-inner">
+    <div class="nk-content-body">
+        <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+                <div class="nk-block-head-content">
+                    <h3 class="nk-block-title page-title">Roles</h3>
+                </div><!-- .nk-block-head-content -->
+                <div class="nk-block-head-content">
+                    <div class="toggle-wrap nk-block-tools-toggle">
+                        <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
+                            <em class="icon ni ni-more-v"></em>
+                        </a>
+                        <div class="toggle-expand-content" data-content="pageMenu">
+                            <ul class="nk-block-tools g-3">
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-right click-search">
+                                            <em class="icon ni ni-search"></em>
+                                        </div>
+                                        <input id="txtSearchRoles" type="text" class="form-control input-search-text" placeholder="Buscar roles">
+                                    </div>
+                                </li>
+                                @* <li>
+                                <div class="drodown">
+                                <a href="#" class="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white" data-bs-toggle="dropdown">Status</a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                <ul class="link-list-opt no-bdr">
+                                <li><a href="#"><span>New Items</span></a></li>
+                                <li><a href="#"><span>Featured</span></a></li>
+                                <li><a href="#"><span>Out of Stock</span></a></li>
+                                </ul>
+                                </div>
+                                </div>
+                                </li>*@
+                                <li class="nk-block-tools-opt">
+                                    <a href="#" data-target="addRol" class="toggle btn btn-icon btn-primary d-md-none btn-add-rol"><em class="icon ni ni-plus"></em></a>
+                                    <a href="#" data-target="addRol" class="toggle btn btn-primary d-none d-md-inline-flex btn-add-rol"><em class="icon ni ni-plus"></em><span>Agregar rol</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head-content -->
+            </div><!-- .nk-block-between -->
+        </div><!-- .nk-block-head -->
+        <div id="divLista" class="nk-block">
+        </div><!-- .nk-block -->
+        <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addRol" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
+            <div class="nk-block-head">
+                <div class="nk-block-head-content">
+                    <h5 class="nk-block-title">Rol</h5>
+                    <div class="nk-block-des">
+                        <p>Aquí puedes asignar permisos a cada rol que crees.</p>
+                    </div>
+                </div>
+            </div><!-- .nk-block-head -->
+            <div class="nk-block">
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <form id="formSendRoles" action="#" class="form-validate is-alter" autocomplete="off">
+                            <div class="form-group">
+                                <label class="form-label" for="category">Título del rol</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="rol" name="rol" required>
+                                </div>
+                            </div>
+                            <input type="hidden" id="txtPermisos" name="Permisos" />
+                            <input type="hidden" id="txtId" name="Id" />
+                        </form>
+
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-stripped table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Módulo</th>
+                                    <th scope="col"><em class="icon ni ni-eye"></em></th>
+                                    <th scope="col"><em class="icon ni ni-grid-plus"></em></th>
+                                    <th scope="col"><em class="icon ni ni-edit"></em></th>
+                                    <th scope="col"><em class="icon ni ni-trash"></em></th>
+                                </tr>
+                            </thead>
+                            <tbody class="quitar-espacio">
+                                <tr>
+                                    <td>Inicio</td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch1" data-value="Inicio" data-permiso="Ver">
+                                            <label class="custom-control-label" for="customSwitch1"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch2" data-value="Inicio" data-permiso="Agregar">
+                                            <label class="custom-control-label" for="customSwitch2"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch3" data-value="Inicio" data-permiso="Modificar">
+                                            <label class="custom-control-label" for="customSwitch3"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch4" data-value="Inicio" data-permiso="Eliminar">
+                                            <label class="custom-control-label" for="customSwitch4"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Compras</td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch5" data-value="Compras" data-permiso="Ver">
+                                            <label class="custom-control-label" for="customSwitch5"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch6" data-value="Compras" data-permiso="Agregar">
+                                            <label class="custom-control-label" for="customSwitch6"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch7" data-value="Compras" data-permiso="Modificar">
+                                            <label class="custom-control-label" for="customSwitch7"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch8" data-value="Compras" data-permiso="Eliminar">
+                                            <label class="custom-control-label" for="customSwitch8"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Productos</td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch9" data-value="Productos" data-permiso="Ver">
+                                            <label class="custom-control-label" for="customSwitch9"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch10" data-value="Productos" data-permiso="Agregar">
+                                            <label class="custom-control-label" for="customSwitch10"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch11" data-value="Productos" data-permiso="Modificar">
+                                            <label class="custom-control-label" for="customSwitch11"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch12" data-value="Productos" data-permiso="Eliminar">
+                                            <label class="custom-control-label" for="customSwitch12"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Contactos</td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch13" data-value="Contactos" data-permiso="Ver">
+                                            <label class="custom-control-label" for="customSwitch13"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch14" data-value="Contactos" data-permiso="Agregar">
+                                            <label class="custom-control-label" for="customSwitch14"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch15" data-value="Contactos" data-permiso="Modificar">
+                                            <label class="custom-control-label" for="customSwitch15"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch16" data-value="Contactos" data-permiso="Eliminar">
+                                            <label class="custom-control-label" for="customSwitch16"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Mensajes</td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch17" data-value="Mensajes" data-permiso="Ver">
+                                            <label class="custom-control-label" for="customSwitch17"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch18" data-value="Mensajes" data-permiso="Agregar">
+                                            <label class="custom-control-label" for="customSwitch18"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch19" data-value="Mensajes" data-permiso="Modificar">
+                                            <label class="custom-control-label" for="customSwitch19"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch20" data-value="Mensajes" data-permiso="Eliminar">
+                                            <label class="custom-control-label" for="customSwitch20"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Reportes</td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch21" data-value="Reportes" data-permiso="Ver">
+                                            <label class="custom-control-label" for="customSwitch21"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch22" data-value="Reportes" data-permiso="Agregar">
+                                            <label class="custom-control-label" for="customSwitch22"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch23" data-value="Reportes" data-permiso="Modificar">
+                                            <label class="custom-control-label" for="customSwitch23"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch24" data-value="Reportes" data-permiso="Eliminar">
+                                            <label class="custom-control-label" for="customSwitch24"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Configuración</td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch25" data-value="Configuración" data-permiso="Ver">
+                                            <label class="custom-control-label" for="customSwitch25"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch26" data-value="Configuración" data-permiso="Agregar">
+                                            <label class="custom-control-label" for="customSwitch26"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch27" data-value="Configuración" data-permiso="Modificar">
+                                            <label class="custom-control-label" for="customSwitch27"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch28" data-value="Configuración" data-permiso="Eliminar">
+                                            <label class="custom-control-label" for="customSwitch28"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Accesos</td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch29" data-value="Accesos" data-permiso="Ver">
+                                            <label class="custom-control-label" for="customSwitch29"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch30" data-value="Accesos" data-permiso="Agregar">
+                                            <label class="custom-control-label" for="customSwitch30"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch31" data-value="Accesos" data-permiso="Modificar">
+                                            <label class="custom-control-label" for="customSwitch31"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso" id="customSwitch32" data-value="Accesos" data-permiso="Eliminar">
+                                            <label class="custom-control-label" for="customSwitch32"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="table-dark">
+                                <tr>
+                                    <td>Todos</td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso-all" id="switchPermisoVer" data-permiso="Ver">
+                                            <label class="custom-control-label" for="switchPermisoVer"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso-all" id="switchPermisoAgregar" data-permiso="Agregar">
+                                            <label class="custom-control-label" for="switchPermisoAgregar"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso-all" id="switchPermisoModificar" data-permiso="Modificar">
+                                            <label class="custom-control-label" for="switchPermisoModificar"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-control-sm custom-switch">
+                                            <input type="checkbox" class="custom-control-input check-permiso-all" id="switchPermisoEliminar" data-permiso="Eliminar">
+                                            <label class="custom-control-label" for="switchPermisoEliminar"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="col-12">
+                        <button id="btnSaveInfoPermisos" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Guardar información</span></button>
+
+                    </div>
+                </div>
+
+
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $("#divLista").load(urlGeneral + "Roles/Lista", function () { });
+
+        $(".btn-add-rol").click(function () {
+            $(".check-permiso").prop("checked", false);
+            $(".check-permiso").parent().removeClass("checked");
+            $(".check-permiso-all").prop("checked", false);
+            $(".check-permiso-all").parent().removeClass("checked");
+            $("#txtPermisos").val("");
+            $("#txtId").val("");
+            $("#rol").val("");
+        })
+
+        $(".check-permiso-all").click(function () {
+            var itemClick = $(this);
+            $(".check-permiso").each(function () {
+                if ($(this).data("permiso") == $(itemClick).data("permiso")) {
+                    if ($(itemClick).prop("checked") && $(this).prop("checked") == false) {
+                        $(this).prop("checked", true)
+                        $(this).parent().addClass("checked")
+                    } else {
+                        if ($(itemClick).prop("checked") == false && $(this).prop("checked") == true) {
+                            $(this).prop("checked", false)
+                            $(this).parent().removeClass("checked")
+                        }
+                    }
+                }
+            });
+
+            if ($(itemClick).data("permiso") == "Agregar" && $(itemClick).prop("checked") == true) {
+                if ($(itemClick).parent().parent().prev().find("input").prop("checked") == false)
+                    $(itemClick).parent().parent().prev().find("input").trigger("click");
+            } else {
+                if ($(itemClick).data("permiso") == "Modificar" && $(itemClick).prop("checked") == true) {
+                    if ($(itemClick).parent().parent().prev().prev().find("input").prop("checked") == false)
+                        $(itemClick).parent().parent().prev().prev().find("input").trigger("click");
+                }
+                else {
+                    if ($(itemClick).data("permiso") == "Eliminar" && $(itemClick).prop("checked") == true) {
+                        if ($(itemClick).parent().parent().prev().prev().prev().find("input").prop("checked") == false)
+                            $(itemClick).parent().parent().prev().prev().prev().find("input").trigger("click");
+                    }
+                }
+            }
+
+
+        })
+
+        $(".check-permiso").click(function () {
+            var itemClick = $(this);
+            var noChecked = 0;
+            $(".check-permiso").each(function () {
+                if ($(this).data("permiso") == $(itemClick).data("permiso")) {
+                    if ($(this).prop("checked") == false)
+                        noChecked++;
+                }
+            });
+
+            $(".check-permiso-all").each(function () {
+                if ($(this).data("permiso") == $(itemClick).data("permiso")) {
+                    if (noChecked == 0 && $(this).prop("checked") == false) {
+                        $(this).prop("checked", true)
+                        $(this).parent().addClass("checked")
+
+                    }
+                    if (noChecked > 0 && $(this).prop("checked") == true) {
+                        $(this).prop("checked", false)
+                        $(this).parent().removeClass("checked")
+                    }
+                }
+            });
+
+            if ($(itemClick).data("permiso") == "Agregar" && $(itemClick).prop("checked") == true) {
+                $(itemClick).parent().parent().prev().find("div").addClass("checked")
+                $(itemClick).parent().parent().prev().find("input").prop("checked", true)
+            } else {
+                if ($(itemClick).data("permiso") == "Modificar" && $(itemClick).prop("checked") == true) {
+                    $(itemClick).parent().parent().prev().prev().find("div").addClass("checked")
+                    $(itemClick).parent().parent().prev().prev().find("input").prop("checked", true)
+                }
+                else {
+                    if ($(itemClick).data("permiso") == "Eliminar" && $(itemClick).prop("checked") == true) {
+                        $(itemClick).parent().parent().prev().prev().prev().find("div").addClass("checked")
+                        $(itemClick).parent().parent().prev().prev().prev().find("input").prop("checked", true)
+                    }
+                }
+            }
+
+
+        });
+
+        $("#btnSaveInfoPermisos").click(function (event) {
+            event.preventDefault();
+            var permiso = "";
+            var valores = "";
+            $(".check-permiso").each(function () {
+                if (permiso != $(this).data("value"))
+                    valores += "|" + $(this).data("value") + ",";
+                valores += $(this).parent().hasClass("checked") + ",";
+                permiso = $(this).data("value");
+            });
+
+            $("#txtPermisos").val(valores);
+            var form = $("#formSendRoles");
+            form.validate();
+            if (!form.valid()) {
+                return;
+            }
+            system.save(
+                urlGeneral + 'Roles/Permisos',
+                form, function (response) {
+                    $("#btnSaveInfoPermisos").prop('disabled', false)
+                    if (response.isSuccess == true) {
+                        loadDiv("?page=1&texto=" + $("#txtSearchRoles").val());
+                        system.clear(form);
+                        Swal.fire("Excelente!", response.message, "success");
+                    } else {
+                        Swal.fire("Error!", response.message, "error");
+                    }
+                },
+                $("#btnSaveInfoPermisos"));
+        });
+
+        $('.input-search-text').keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                loadDiv("?page=1&texto=" + $("#txtSearchRoles").val());
+            }
+        });
+
+
+        $("#click-search").click(function () {
+            loadDiv("?page=1&texto=" + $("#txtSearchRoles").val());
+        });
+
+        function loadDiv(parametros) {
+            $("#divLista").load(urlGeneral + "Roles/Lista" + parametros, function () { });
+        }
+
+    </script>
+    <style>
+        .table-dark > tr > td, .quitar-espacio > tr > td {
+            padding-left: 5px;
+            padding-right: 0px !important;
+        }
+    </style>
+}

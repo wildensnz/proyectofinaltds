@@ -12,19 +12,15 @@ namespace InventarioModelo
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-        public string Rol { get; set; }
+        public int Id { get; set; }
+        public string Rol { get; set; } = "";
         public bool Activo { get; set; }
         public DateTime Fecha { get; set; }
-        public int Usuario_ID { get; set; }
+        public int? UsuarioId { get; set; }
 
-        public Roles()
-        {
+        public virtual ICollection<RolPermisos> RolPermisos { get; set; }
 
-            this.Rol = "";
-            this.Activo = false;
-            this.Fecha = DateTime.Now;
-
-        }
+        [NotMapped]
+        public int TotalUsuarios { get; set; }
     }
 }

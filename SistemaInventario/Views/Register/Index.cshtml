@@ -1,0 +1,90 @@
+﻿@model InventarioViewModel.Login
+@{
+    ViewData["Title"] = "Registrarme";
+    Layout = "~/Views/Shared/_layoutAuth.cshtml";
+}
+
+<div class="nk-block-head">
+    <div class="nk-block-head-content">
+        <h5 class="nk-block-title">Registrarme</h5>
+        <div class="nk-block-des">
+            <p>Bienvenido al Sistema de Inventarios.</p>
+        </div>
+    </div>
+</div><!-- .nk-block-head -->
+<form action="#" class="form-validate is-alter" autocomplete="off">
+    <div class="form-group">
+        <div class="form-label-group">
+            <label class="form-label" for="email-address">Nombre</label>
+        </div>
+        <div class="form-control-wrap">
+            <input name="name" autocomplete="off" type="text" class="form-control form-control-lg" required id="name" placeholder="Captura tu nombre">
+        </div>
+    </div><!-- .form-group -->
+    <div class="form-group">
+        <div class="form-label-group">
+            <label class="form-label" for="email-address">Correo Electrónico</label>
+        </div>
+        <div class="form-control-wrap">
+            <input name="user" autocomplete="off" type="email" class="form-control form-control-lg" required id="email-address" placeholder="Captura tu correo electrónico">
+        </div>
+    </div><!-- .form-group -->
+    <div class="form-group">
+        <div class="form-label-group">
+            <label class="form-label" for="email-address">Contraseña</label>
+        </div>
+        <div class="form-control-wrap">
+            <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+            </a>
+            <input name="password" autocomplete="new-password" type="password" class="form-control form-control-lg" required id="password" placeholder="Captura tu contraseña">
+        </div>
+    </div><!-- .form-group -->
+    <div class="form-group">
+
+        <div class="form-group">
+            <ul class="custom-control-group g-3 align-center">
+                <li>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" dirname="rememberLogin" class="custom-control-input" name="fv-com" id="fv-com-email" required>
+                        <label class="custom-control-label" for="fv-com-email">Acepto los terminos y condiciones</label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <button id="btnRegister" class="btn btn-lg btn-primary btn-block">Crear cuenta</button>
+    </div>
+</form><!-- form -->
+<div class="form-note-s2 pt-4">
+    Ya tienes cuenta? <a href="~/Login">Entrar al sistema</a>
+</div>
+
+
+<!-- wrap s -->
+@section Scripts{
+    <script>
+        $("#btnRegister").click(function (event) {
+            event.preventDefault();
+            var form = $(this).closest('form');
+            form.validate();
+            if (!form.valid()) {
+                return;
+            }
+            system.save(
+                urlGeneral + 'Register/Now',
+                form, function (response) {
+                    $("#btnRegister").prop('disabled', false)
+                    if (response.isSuccess == true) {
+                        system.clear(form);
+                        Swal.fire("Excelente!", response.message, "success");
+                    } else {
+                        Swal.fire("Error!", response.message, "error");
+                    }
+                },
+                $("#btnRegister"));
+        });
+    </script>
+            }

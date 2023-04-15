@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using InventarioHerramienta.Interfaces;
+using InventarioModelo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SistemaInventario.DataContext;
 using SistemaInventario.Models;
 using System.Diagnostics;
@@ -7,20 +10,16 @@ using System.Diagnostics;
 namespace SistemaInventario.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly InventarioDbContext dbContext;
-
-        public HomeController(ILogger<HomeController> logger, InventarioDbContext _dbContext)
+        public HomeController(IMailService _mailSender, InventarioDbContext _dbContext) : base(_mailSender, _dbContext)
         {
-            _logger = logger;
-            dbContext= _dbContext;
         }
 
         public IActionResult Index()
         {
-            //int countUser = dbContext.Usuarios.Count();
+            tienePermiso("Accesos", new List<RolPermisos>());
+            int totReg = dbContext.Usuarios.Count();
             return View();
         }
 
@@ -35,4 +34,5 @@ namespace SistemaInventario.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+    
 }

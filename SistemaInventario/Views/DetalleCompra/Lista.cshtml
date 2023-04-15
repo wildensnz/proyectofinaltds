@@ -1,0 +1,66 @@
+﻿@model IEnumerable<InventarioModelo.Compra_Productos>
+@{
+    decimal subtotal = 0;
+    decimal total = 0;
+    decimal impt = 0;
+}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="w-150px">Id</th>
+                <th class="w-60">Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Costo</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    subtotal = item.Compras.Neto;
+                    impt = item.Compras.PorcentajeImpuesto;
+                    total = item.Compras.Total;
+                    <tr>
+                        <td>@item.Productos.Codigo</td>
+                        <td>@item.Productos.Nombre</td>
+                        <td>$ @String.Format("{0:n}", item.Total)</td>
+                        <td>@String.Format("{0:n}", item.Cantidad)</td>
+                        <td>$ @String.Format("{0:n}", (item.Cantidad * item.Total))</td>
+                        <td><a href="#" class="btn btn-round btn-icon btn-sm btn-primary" onclick="deleteInfo(@item.Id)"><em class="icon ni ni-trash-alt"></em></a></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">Agregar productos</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">Subtotal</td>
+                <td>$ @String.Format("{0:n}", subtotal)</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">Impuesto</td>
+                <td>$ @String.Format("{0:n}", impt)</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">Total</td>
+                <td>$ @String.Format("{0:n}", total)</td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="nk-notes ff-italic fs-12px text-soft"> La factura se creó en una computadora y es válida sin la firma y el sello. </div>
+</div>
+
+

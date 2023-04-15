@@ -1,0 +1,221 @@
+﻿@{
+    ViewData["Title"] = "Monedas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="nk-content-inner">
+    <div class="nk-content-body">
+        <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+                <div class="nk-block-head-content">
+                    <h3 class="nk-block-title page-title">Monedas</h3>
+                </div><!-- .nk-block-head-content -->
+                <div class="nk-block-head-content">
+                    <div class="toggle-wrap nk-block-tools-toggle">
+                        <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
+                            <em class="icon ni ni-more-v"></em>
+                        </a>
+                        <div class="toggle-expand-content" data-content="pageMenu">
+                            <ul class="nk-block-tools g-3">
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-right click-search">
+                                            <em class="icon ni ni-search"></em>
+                                        </div>
+                                        <input id="txtSearchMonedas" type="text" class="form-control input-search-text" placeholder="Buscar monedas">
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="fw-bold m-1">Mostrar: </p>
+
+                                    <div class="form-group">
+                                        <div class="form-control-wrap ">
+                                            <select class="form-select showrecords">
+                                                <option value="10" selected>10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nk-block-tools-opt">
+                                    <a href="#" data-target="addMoneda" class="toggle btn btn-icon btn-primary d-md-none btn-add-moneda"><em class="icon ni ni-plus"></em></a>
+                                    <a href="#" data-target="addMoneda" class="toggle btn btn-primary d-none d-md-inline-flex btn-add-moneda"><em class="icon ni ni-plus"></em><span>Agregar moneda</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head-content -->
+            </div><!-- .nk-block-between -->
+        </div><!-- .nk-block-head -->
+        <div id="divLista" class="nk-block">
+        </div><!-- .nk-block -->
+        <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addMoneda" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
+            <div class="nk-block-head">
+                <div class="nk-block-head-content">
+                    <h5 class="nk-block-title">Moneda</h5>
+                    <div class="nk-block-des">
+                        <p>Aquí puedes crear las monedas que necesites para tus productos o compras.</p>
+                    </div>
+                </div>
+            </div><!-- .nk-block-head -->
+            <div class="nk-block">
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <form id="formSendMonedas" action="#" class="form-validate is-alter" autocomplete="off">
+                            <div class="form-group">
+                                <label class="form-label" for="category">Moneda</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control input-text-clear" id="moneda" name="Moneda" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Decimales</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-control" id="decimales" name="Decimales">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Pais</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="Pais" name="Pais" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Simbolo</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="Simbolo" name="Simbolo" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Código</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control input-text-clear" id="Codigo" name="Codigo" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Por default</label>
+                                        <div class="form-control-wrap">
+                                            <div class="custom-control custom-control-sm custom-switch">
+                                                <input type="checkbox" class="custom-control-input check-default" id="Principal" name="Principal" data-value="Inicio" data-permiso="Eliminar">
+                                                <label class="custom-control-label" for="Principal"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Separador Miles</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-control" id="SeparadorMiles" name="SeparadorMiles">
+                                                <option value=".">Punto (.)</option>
+                                                <option value="," selected>Coma (,)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Separador Decimales</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-control" id="SeparadorDecimales" name="SeparadorDecimales">
+                                                <option value="." selected>Punto (.)</option>
+                                                <option value=",">Coma (,)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="input-text-clear" id="txtId" name="Id" />
+                        </form>
+
+                    </div>
+
+                    <div class="col-12">
+                        <button id="btnSaveInfoModal" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Guardar información</span></button>
+
+                    </div>
+                </div>
+
+
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        loadDiv("?reg=" + $(".showrecords").val())
+        function loadDiv(parametros) {
+            $("#divLista").load(urlGeneral + "Monedas/Lista" + parametros, function () { });
+        }
+
+        $(".showrecords").change(function () {
+            loadDiv("?page=1&texto=" + $("#txtSearchMonedas").val() + "&reg=" + $(".showrecords").val());
+        });
+
+        $('.input-search-text').keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                loadDiv("?page=1&texto=" + $("#txtSearchMonedas").val() + "&reg=" + $(".showrecords").val());
+            }
+        });
+
+        $(".click-search").click(function () {
+            loadDiv("?page=1&texto=" + $("#txtSearchMonedas").val() + "&reg=" + $(".showrecords").val());
+        });
+        $(".btn-add-moneda").click(function () {
+            $(".check-default").prop("checked", false);
+            $(".check-default").parent().removeClass("checked");
+            $(".input-text-clear").val("");
+            $("#decimales").val("0").trigger('change');
+            $("#SeparadorMiles").val(",").trigger('change');
+            $("#SeparadorDecimales").val(".").trigger('change');
+        })
+
+        $("#btnSaveInfoModal").click(function (event) {
+
+            event.preventDefault();
+            var form = $("#formSendMonedas");
+            form.validate();
+            if (!form.valid()) {
+                return;
+            }
+            system.save(
+                urlGeneral + 'Monedas/Save',
+                form, function (response) {
+                    $("#btnSaveInfoModal").prop('disabled', false)
+                    if (response.isSuccess == true) {
+                        loadDiv("?page=1&texto=" + $("#txtSearchMonedas").val() + "&reg=" + $(".showrecords").val())
+                        system.clear(form);
+                        Swal.fire("Excelente!", response.message, "success");
+                    } else {
+                        Swal.fire("Error!", response.message, "error");
+                    }
+                },
+                $("#btnSaveInfoModal"));
+        });
+    </script>
+}

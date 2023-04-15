@@ -1,0 +1,10 @@
+﻿
+.opcion-order {
+    cursor: pointer;
+}
+
+.opcion-order-selected {
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: #364a63 !important;
+}

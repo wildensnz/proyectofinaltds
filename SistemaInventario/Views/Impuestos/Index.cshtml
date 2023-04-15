@@ -1,0 +1,171 @@
+﻿@{
+    ViewData["Title"] = "Impuestos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="nk-content-inner">
+    <div class="nk-content-body">
+        <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between">
+                <div class="nk-block-head-content">
+                    <h3 class="nk-block-title page-title">Impuestos</h3>
+                </div><!-- .nk-block-head-content -->
+                <div class="nk-block-head-content">
+                    <div class="toggle-wrap nk-block-tools-toggle">
+                        <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu">
+                            <em class="icon ni ni-more-v"></em>
+                        </a>
+                        <div class="toggle-expand-content" data-content="pageMenu">
+                            <ul class="nk-block-tools g-3">
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-right click-search">
+                                            <em class="icon ni ni-search"></em>
+                                        </div>
+                                        <input id="txtSearchImpuestos" type="text" class="form-control input-search-text" placeholder="Buscar impuestos">
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="fw-bold m-1">Mostrar: </p>
+
+                                    <div class="form-group">
+                                        <div class="form-control-wrap ">
+                                            <select class="form-select showrecords">
+                                                <option value="10" selected>10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nk-block-tools-opt">
+                                    <a href="#" data-target="addImpuesto" class="toggle btn btn-icon btn-primary d-md-none btn-add-impuesto"><em class="icon ni ni-plus"></em></a>
+                                    <a href="#" data-target="addImpuesto" class="toggle btn btn-primary d-none d-md-inline-flex btn-add-impuesto"><em class="icon ni ni-plus"></em><span>Agregar impuesto</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head-content -->
+            </div><!-- .nk-block-between -->
+        </div><!-- .nk-block-head -->
+        <div id="divLista" class="nk-block">
+        </div><!-- .nk-block -->
+        <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addImpuesto" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
+            <div class="nk-block-head">
+                <div class="nk-block-head-content">
+                    <h5 class="nk-block-title">Impuesto</h5>
+                    <div class="nk-block-des">
+                        <p>Aquí puedes crear los impuesto que necesites para tus productos o compras.</p>
+                    </div>
+                </div>
+            </div><!-- .nk-block-head -->
+            <div class="nk-block">
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <form id="formSendImpuestos" action="#" class="form-validate is-alter" autocomplete="off">
+                            <div class="form-group">
+                                <label class="form-label" for="category">Impuesto</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control input-text-clear" id="nombre" name="Nombre" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="category">Valor</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control input-text-clear" id="valor" name="Valor" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Es porcentaje</label>
+                                        <div class="form-control-wrap">
+                                            <div class="custom-control custom-control-sm custom-switch">
+                                                <input type="checkbox" class="custom-control-input check-default" id="esPorcentaje" name="EsPorcentaje">
+                                                <label class="custom-control-label" for="esPorcentaje"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Por default</label>
+                                        <div class="form-control-wrap">
+                                            <div class="custom-control custom-control-sm custom-switch">
+                                                <input type="checkbox" class="custom-control-input check-default" id="aplicarDefault" name="AplicarDefault">
+                                                <label class="custom-control-label" for="aplicarDefault"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="input-text-clear" id="txtId" name="Id" />
+                        </form>
+
+                    </div>
+
+                    <div class="col-12">
+                        <button id="btnSaveInfoModal" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Guardar información</span></button>
+
+                    </div>
+                </div>
+
+
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        loadDiv("?reg=" + $(".showrecords").val())
+        function loadDiv(parametros) {
+            $("#divLista").load(urlGeneral + "Impuestos/Lista" + parametros, function () { });
+        }
+
+        $(".showrecords").change(function () {
+            loadDiv("?page=1&texto=" + $("#txtSearchImpuestos").val() + "&reg=" + $(".showrecords").val());
+        });
+
+        $('.input-search-text').keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                loadDiv("?page=1&texto=" + $("#txtSearchImpuestos").val() + "&reg=" + $(".showrecords").val());
+            }
+        });
+
+        $(".click-search").click(function () {
+            loadDiv("?page=1&texto=" + $("#txtSearchImpuestos").val() + "&reg=" + $(".showrecords").val());
+        });
+        $(".btn-add-impuesto").click(function () {
+            $(".check-default").prop("checked", false);
+            $(".check-default").parent().removeClass("checked");
+            $(".input-text-clear").val("");
+        })
+
+        $("#btnSaveInfoModal").click(function (event) {
+
+            event.preventDefault();
+            var form = $("#formSendImpuestos");
+            form.validate();
+            if (!form.valid()) {
+                return;
+            }
+            system.save(
+                urlGeneral + 'Impuestos/Save',
+                form, function (response) {
+                    $("#btnSaveInfoModal").prop('disabled', false)
+                    if (response.isSuccess == true) {
+                        loadDiv("?page=1&texto=" + $("#txtSearchImpuestos").val() + "&reg=" + $(".showrecords").val())
+                        system.clear(form);
+                        Swal.fire("Excelente!", response.message, "success");
+                    } else {
+                        Swal.fire("Error!", response.message, "error");
+                    }
+                },
+                $("#btnSaveInfoModal"));
+        });
+    </script>
+}

@@ -1,0 +1,315 @@
+﻿@model IEnumerable<InventarioModelo.Productos>
+<div class="card">
+    <div class="card-inner-group">
+        <div class="card-inner p-0">
+            <div class="nk-tb-list">
+                <div class="nk-tb-item nk-tb-head">
+                    @if (ViewBag.tPermiso.Eliminar == true)
+                    {
+                        <div class="nk-tb-col nk-tb-col-check">
+                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                <input type="checkbox" class="custom-control-input control-checkbox-all" id="pid">
+                                <label class="custom-control-label" for="pid"></label>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="nk-tb-col tb-col-sm"><span>Código</span></div>
+                    <div class="nk-tb-col"><span>Producto</span></div>
+                    <div class="nk-tb-col"><span>Costo</span></div>
+                    <div class="nk-tb-col"><span>Impuesto</span></div>
+                    <div class="nk-tb-col"><span>Venta</span></div>
+                    <div class="nk-tb-col"><span>Stock</span></div>
+                    <div class="nk-tb-col"><span>Empresa</span></div>
+                    @if (ViewBag.tPermiso.Modificar == true || ViewBag.tPermiso.Eliminar == true)
+                    {
+                        <div class="nk-tb-col nk-tb-col-tools">
+                            @if (ViewBag.tPermiso.Eliminar == true)
+                            {
+                                <ul class="nk-tb-actions gx-1 my-n1">
+                                    <li class="me-n1">
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <ul class="link-list-opt no-bdr">
+                                                    <li><a href="#" class="opc-delete-all"><em class="icon ni ni-trash"></em><span>Eliminar seleccionados</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+
+                        </div>
+                    }
+
+                </div><!-- .nk-tb-item -->
+                @if (Model.Count() == 0)
+                {
+
+                    <div class="nk-tb-item">
+                        <div class="nk-tb-col nk-tb-col-check">
+                        </div>
+                        <div class="nk-tb-col tb-col-sm">
+                            <span class="tb-product">
+
+                                <span class="tb-sub"> No se encontro información registrada</span>
+                            </span>
+                        </div>
+
+                    </div>
+                }
+                @foreach (var item in Model)
+                {
+                    <div class="nk-tb-item">
+                        @if (ViewBag.tPermiso.Eliminar == true)
+                        {
+                            <div class="nk-tb-col nk-tb-col-check">
+                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                    <input type="checkbox" class="custom-control-input control-checkbox" data-value="@item.Id" id="@Html.Raw("pid" + item.Id)">
+                                    <label class="custom-control-label" for="@Html.Raw("pid" + item.Id)"></label>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="nk-tb-col tb-col-sm">
+                            <span class="tb-product">
+                                @if (item.Archivos != null)
+                                {
+                                    string urlLogo = "~/images/upload/" + item.Archivos.Archivo;
+                                    <img class="thumb" src="@Url.Content(urlLogo)" alt="">
+                                }
+
+                                <span class="title">@item.Codigo</span>
+                            </span>
+                        </div>
+                        <div class="nk-tb-col">
+                            <span class="tb-sub">@item.Nombre</span>
+                        </div>
+                        <div class="nk-tb-col">
+                            <span class="tb-sub">@item.Costo</span>
+                        </div>
+                        <div class="nk-tb-col">
+                            <span class="tb-sub">@item.Impuesto</span>
+                        </div>
+                        <div class="nk-tb-col">
+                            <span class="tb-sub">@item.PrecioVenta</span>
+                        </div>
+                        <div class="nk-tb-col">
+                            <span class="tb-sub">@item.Stock</span>
+                        </div>
+                        <div class="nk-tb-col">
+                            @if (item.Empresas != null)
+                            {
+                                <span class="tb-sub">
+                                    @item.Empresas.Nombre
+                                    @if (!string.IsNullOrEmpty(item.Empresas.Telefono))
+                                    {
+                                        <br />
+                                        <em class="icon ni ni-call"></em> @item.Empresas.Telefono
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.Empresas.CorreoElectronico))
+                                    {
+                                        <br />
+                                        <em class="icon ni ni-mail"></em> @item.Empresas.CorreoElectronico
+                                    }
+                                </span>
+                            }
+                        </div>
+                        @if (ViewBag.tPermiso.Modificar == true || ViewBag.tPermiso.Eliminar == true)
+                        {
+                            <div class="nk-tb-col nk-tb-col-tools">
+                                <ul class="nk-tb-actions gx-1 my-n1">
+                                    <li class="me-n1">
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <ul class="link-list-opt no-bdr">
+                                                    @if (ViewBag.tPermiso.Modificar == true)
+                                                    {
+                                                        <li><a href="#" data-target="addProducto" class="opc-edit toggleList" data-value="@item.Id"><em class="icon ni ni-edit"></em><span>Modificar</span></a></li>
+                                                    }
+
+                                                    @if (item.Id != 6 && ViewBag.tPermiso.Eliminar == true)
+                                                    {
+                                                        <li><a href="#" class="opc-delete" data-value="@item.Id"><em class="icon ni ni-trash "></em><span>Eliminar</span></a></li>
+
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+
+
+                    </div>
+                }
+
+
+            </div><!-- .nk-tb-list -->
+        </div>
+        @if (ViewBag.Pager.TotalPages > 1)
+        {
+            <div class="card-inner">
+                <div class="nk-block-between-md g-3">
+                    <div class="g">
+                        <ul class="pagination justify-content-center justify-content-md-start">
+                            @foreach (var item in ViewBag.Pager.Pages)
+                            {
+                                if (item == ViewBag.Pager.StartPage)
+                                {
+                                    <li class="page-item"><a class="page-link" href="#" data-value="@item"><em class="icon ni ni-chevrons-left"></em></a></li>
+                                }
+                                if (item == ViewBag.Pager.CurrentPage)
+                                {
+                                    <li class="page-item active"><span class="page-link">@item</span></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item"><a class="page-link" href="#" data-value="@item">@item</a></li>
+                                }
+                                if (item == ViewBag.Pager.EndPage)
+                                {
+                                    <li class="page-item"><a class="page-link" href="#" data-value="@item"><em class="icon ni ni-chevrons-right"></em></a></li>
+                                }
+
+                            }
+                        </ul><!-- .pagination -->
+                    </div>
+                    <div class="g">
+                        <div class="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
+                            <div>Pagina</div>
+                            <div>
+                                <select id="slctPage" class="form-select js-select2" data-search="on" data-dropdown="xs center">
+                                    @for (int i = 1; i <= ViewBag.Pager.TotalPages; i++)
+                                    {
+                                        if (i == ViewBag.Pager.CurrentPage)
+                                        {
+                                            <option value="@i" selected>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                            <div>de @ViewBag.Pager.TotalPages</div>
+                        </div>
+                    </div><!-- .pagination-goto -->
+                </div><!-- .nk-block-between -->
+            </div>
+
+
+        }
+
+        <script>
+
+            NioApp.TGL.content('.toggleList');
+            $(".page-link").click(function (event) {
+                event.preventDefault();
+                var item = "?page=" + $(this).data("value") + "&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val();
+                loadDiv(item)
+            });
+
+            $("#slctPage").on('change', function () {
+                loadDiv("?page=" + $(this).val() + "&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val());
+            });
+
+            $(".control-checkbox-all").click(function () {
+                var chkAll = $(this).is(':checked');
+                $(".control-checkbox").each(function () {
+                    if (chkAll == true) {
+                        if ($(this).is(':checked') == false) {
+                            $(this).trigger("click");
+                        }
+                    } else {
+                        if ($(this).is(':checked') == true) {
+                            $(this).trigger("click");
+                        }
+                    }
+
+                });
+            })
+
+
+
+            $(".opc-edit").click(function (event) {
+                event.preventDefault();
+                var item = $(this);
+                system.get(
+                    urlGeneral + 'Productos/Get?Id=' + $(item).data("value"),
+                    function (response) {
+                        debugger;
+                        if (response.isSuccess == true) {
+                            $("#codigo").val(response.result.codigo);
+                            $("#stock").val(response.result.stock);
+                            $("#nombre").val(response.result.nombre);
+                            $("#descripcion").val(response.result.descripcion);
+                            $("#modelo").val(response.result.modelo);
+                            $("#presentacion").val(response.result.presentacion);
+                            $("#marca").val(response.result.marca);
+                            $("#costo").val(response.result.costo);
+                            $("#impuesto").val(response.result.impuesto);
+                            $("#precioVenta").val(response.result.precioVenta);
+                            $("#empresaId").val(response.result.empresaId).trigger('change');
+                            $("#txtId").val(response.result.id);
+                            $('#imglogotipo').attr('src', '/images/upload/' + response.result.archivos.archivo);
+
+                        } else {
+                            Swal.fire("Error!", response.message, "error");
+                        }
+                    });
+            });
+
+            $(".opc-delete").click(function (event) {
+                event.preventDefault();
+                var val = $(this).data("value");
+                deleteInfo(val);
+            });
+
+            $(".opc-delete-all").click(function () {
+                var val = "";
+                $(".control-checkbox").each(function () {
+                    if ($(this).is(':checked')) {
+                        val += $(this).data("value") + "|";
+                    }
+                });
+                if (val == "")
+                    Swal.fire("Información!", "Debes seleccionar el producto que quieres eliminar", "info");
+                else
+                    deleteInfo(val);
+            });
+
+            function deleteInfo(val) {
+                Swal.fire({
+                    title: 'Eliminar',
+                    text: '¿Está seguro que deseas eliminar el registro?',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Eliminar',
+                    cancelButtonText: 'Cancelar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        system.get(
+                            urlGeneral + 'Productos/Delete?Id=' + val,
+                            function (response) {
+                                if (response.isSuccess == true) {
+                                    loadDiv("?page=1&texto=" + $("#txtSearchInput").val() + "&reg=" + $(".showrecords").val())
+                                    Swal.fire("Excelente!", response.message, "success");
+                                } else {
+                                    Swal.fire("Error!", response.message, "error");
+                                }
+                            });
+                    }
+                })
+            }
+
+
+        </script>
+
+    </div>
+</div>

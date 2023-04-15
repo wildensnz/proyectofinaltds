@@ -1,0 +1,331 @@
+﻿@model InventarioViewModel.Factura
+@{
+    ViewData["Title"] = "Factura";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nk-content-inner">
+    <div class="nk-content-body">
+        <div class="nk-block-head">
+            <div class="nk-block-between g-3">
+                <div class="nk-block-head-content">
+                    <h3 class="nk-block-title page-title">Factura <strong class="text-primary small clsCodigoFactura1">#@Model.Codigo</strong></h3>
+                    <div class="nk-block-des text-soft">
+                        <ul class="list-inline">
+                            <li>Creada el: <span class="text-base">@Model.FechaCreacion</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nk-block-head-content">
+                    <a href="~/Compras" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Regresar</span></a>
+                    <a href="~/Compras" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="form-label" for="default-01">Factura</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="txtFactura" placeholder="Número de factura" value="@Model.Codigo">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="form-label">Proveedor</label>
+                        <div class="form-control-wrap">
+                            <select id="slctProveedor" class="form-select" name="slctProveedor">
+                                @foreach (var item in ViewBag.Proveedores)
+                                {
+                                    if (Model.ProveedorId == item.Id)
+                                    {
+                                        <option value="@item.Id"
+                                        data-name="@item.Nombre"
+                                        data-dir="@item.Direccion"
+                                        data-tel="@item.Telefono" selected>@item.Nombre</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id"
+                                        data-name="@item.Nombre"
+                                        data-dir="@item.Direccion"
+                                        data-tel="@item.Telefono">@item.Nombre</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="form-label">Empresa</label>
+                        <div class="form-control-wrap">
+                            <select id="slctEmpresa" class="form-select" name="slctEmpresa">
+                                @foreach (var item in ViewBag.Empresas)
+
+                                {
+                                    if (Model.EmpresaId == item.Id)
+                                    {
+                                        <option value="@item.Id" selected>@item.Nombre</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.Nombre</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="form-label" for="default-01">Fecha</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control date-picker" id="txtFecha" placeholder="DD/MM/AAAA" value="@Model.FechaCreacionDate.ToString("dd/MM/yyyy")">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="form-label">Impuesto</label>
+                        <div class="form-control-wrap">
+                            <select id="slctImpuesto" class="form-select" name="slctImpuesto">
+                                @foreach (var item in ViewBag.Ipuestos)
+                                {
+                                    if (Model.Impuesto == item.Valor)
+                                    {
+                                        <option value="@item.Valor" selected>@item.Valor</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Valor">@item.Valor</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .nk-block-head -->
+        <div class="nk-block">
+            <div class="invoice">
+                <div class="invoice-action">
+                    <a data-bs-toggle="modal" data-bs-target="#addProducto"
+                       class="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary" href="#"><em class="icon ni ni-plus-sm"></em> Agregar &nbsp;&nbsp;</a>
+                </div><!-- .invoice-actions -->
+                <div class="invoice-wrap">
+@*                    <div class="invoice-brand text-center">
+                        <img src="~/images/estradaLOGO3.png" srcset="@Url.Content("~/images/estradaLOGO3.png") 2x" alt="">
+                    </div>*@
+                    <div class="invoice-head">
+                        <div class="invoice-contact">
+                            <span class="overline-title">Datos del Proveedor</span>
+                            <div class="invoice-contact-info">
+                                <h4 id="nameProveedor" class="title">@Model.Proveedor</h4>
+                                <ul class="list-plain">
+                                    <li><em class="icon ni ni-map-pin-fill"></em><span id="dirProveedor">@Model.Direccion</span></li>
+                                    <li><em class="icon ni ni-call-fill"></em><span id="telProveedor">@Model.Telefono</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="invoice-desc" style="width: 250px;">
+                            <h3 class="title">Factura</h3>
+                            <ul class="list-plain">
+                                <li class="invoice-id"><span># Factura</span>:<span class="clsCodigoFactura2">@Model.Codigo</span></li>
+                                <li class="invoice-date"><span>Fecha</span>:<span class="clsFechaFactura">@Model.Fecha</span></li>
+                            </ul>
+                        </div>
+                    </div><!-- .invoice-head -->
+                    <div id="divListaProds" class="invoice-bills">
+                    </div><!-- .invoice-bills -->
+                </div><!-- .invoice-wrap -->
+            </div><!-- .invoice -->
+        </div><!-- .nk-block -->
+
+
+
+
+    </div>
+</div>
+
+<div class="modal fade" id="addProducto" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Producto</h5>
+                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <form id="formSend" action="~/DetalleCompra/Save" class="form-validate is-alter" method="post" autocomplete="off">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Producto</label>
+                                        <div class="form-control-wrap">
+                                            <select id="slctProducto" class="form-select js-select2" data-search="on" name="ProductoId" required>
+                                                @foreach (var item in ViewBag.Productos)
+                                                {
+                                                    <option value="@item.Id">@item.Codigo @item.Nombre</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="stock">Cantidad</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" class="form-control input-text-clear" id="cantidad" name="Cantidad" maxlength="10" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="stock">Costo</label>
+                                        <div class="form-control-wrap">
+                                            <input type="number" class="form-control input-text-clear" id="costo" name="Total" maxlength="10" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <input type="hidden" class="input-text-clear" id="txtId" name="Id" />
+                            <input type="hidden" class="input-text-clear" id="txtCompraId" name="CompraId" value="@ViewBag.FacturaId" />
+                            <input type="hidden" class="input-text-clear" id="txtFacturaCodigo" name="FacturaCodigo" />
+                            <input type="hidden" class="input-text-clear" id="txtProveedorId" name="ProveedorId" />
+                            <input type="hidden" class="input-text-clear" id="txtEmpresaId" name="EmpresaId" />
+                            <input type="hidden" class="input-text-clear" id="txtFechaCompra" name="FechaCompra" />
+                            <input type="hidden" class="input-text-clear" id="txtImpuesto" name="Impuesto" />
+
+                        </form>
+
+                    </div>
+
+                    <div class="col-7">
+                        <button id="btnSaveInfoModal" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Guardar información</span></button>
+
+                    </div>
+                    <div class="col-5">
+                        <button onclick="" class="btn btn-light" data-bs-dismiss="modal"><em class="icon ni ni-arrow-right-c"></em><span>Cancelar</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <span class="sub-text">Agregar producto</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        var idFact = 0;
+        $(document).ready(function () {
+            $("#txtFactura").keyup(function () {
+                let valor = $(this).val();
+                $(".clsCodigoFactura1").text("#" + valor);
+                $(".clsCodigoFactura2").text(valor);
+            });
+
+            $('#txtFecha').change(function () {
+                let valor = $(this).val();
+                let f = valor.split('/');
+                if (f.length > 2 && parseInt(f[1]) < 13) {
+                    let fecha = f[0].length == 1 ? "0" + f[0] : f[0];
+                    fecha += " de " + mesesYear[parseInt(f[1])] + " de " + f[2];
+                    $(".clsFechaFactura").text(fecha);
+                }
+
+            });
+            let objSlct = $("#slctProveedor option:selected");
+            getProveedor(
+                $($(objSlct)[0]).data("name"),
+                $($(objSlct)[0]).data("dir"),
+                $($(objSlct)[0]).data("tel")
+            );
+            $('#slctProveedor').change(function () {
+                let obj = $("#slctProveedor option:selected");
+                getProveedor(
+                    $($(obj)[0]).data("name"),
+                    $($(obj)[0]).data("dir"),
+                    $($(obj)[0]).data("tel")
+                );
+            });
+
+            $("#btnSaveInfoModal").click(function (event) {
+                event.preventDefault();
+
+                $("#txtFacturaCodigo").val($("#txtFactura").val());
+                $("#txtProveedorId").val($("#slctProveedor").val());
+                $("#txtEmpresaId").val($("#slctEmpresa").val());
+                $("#txtFechaCompra").val($("#txtFecha").val());
+                $("#txtImpuesto").val($("#slctImpuesto").val());
+
+                var form = $("#formSend");
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                }
+                system.saveUpload(
+                    urlGeneral + 'DetalleCompra/Save',
+                    form, function (response) {
+                        $("#btnSaveInfoModal").prop('disabled', false)
+                        if (response.isSuccess == true) {
+                            $("#txtCompraId").val(response.id);
+                            idFact = response.id;
+                            loadDiv(response.id)
+                            system.clear(form);
+                            Swal.fire("Excelente!", response.message, "success");
+                        } else {
+                            Swal.fire("Error!", response.message, "error");
+                        }
+                    },
+                    $("#btnSaveInfoModal"));
+            });
+
+        });
+
+        function getProveedor(n, d, t) {
+            $("#nameProveedor").text(n);
+            $("#dirProveedor").text(d);
+            $("#telProveedor").text(t);
+        }
+        loadDiv('@ViewBag.FacturaId');
+        function loadDiv(id) {
+            $("#divListaProds").load(urlGeneral + "DetalleCompra/Lista?Id=" + id, function () { });
+        }
+
+        function deleteInfo(val) {
+            Swal.fire({
+                title: 'Eliminar',
+                text: '¿Está seguro que deseas eliminar el producto?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    system.get(
+                        urlGeneral + 'DetalleCompra/Delete?Id=' + val,
+                        function (response) {
+                            if (response.isSuccess == true) {
+                                loadDiv($("#txtCompraId").val())
+                                Swal.fire("Excelente!", response.message, "success");
+                            } else {
+                                Swal.fire("Error!", response.message, "error");
+                            }
+                        });
+                }
+            })
+        }
+
+    </script>
+}

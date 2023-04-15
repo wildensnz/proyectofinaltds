@@ -12,28 +12,26 @@ namespace InventarioModelo
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-        public string Nombre { get; set; }
-        public string Direccion { get; set; }
-        public string Telefono { get; set; }
-        public string Extension { get; set; }
-        public string Correo { get; set; }
+        public int Id { get; set; }
+        public string Nombre { get; set; } = "";
+        public string Direccion { get; set; } = "";
+        public string Telefono { get; set; } = "";
+        public string Extension { get; set; } = "";
+        public string Email { get; set; } = "";
         public DateTime Fecha { get; set; }
-        public string Tipo { get; set; }
-        public string Estatus { get; set; }
-        public int Empresa_ID { get; set; }
-        public int Usuario_ID { get; set; }
+        public string Tipo { get; set; } = "";
+        public bool Activo { get; set; } = true;
+        public int? EmpresaId { get; set; }
+        public int UsuarioId { get; set; }
 
-        public Contactos()
-        {
-            this.Nombre = "";
-            this.Direccion = "";
-            this.Telefono = "";
-            this.Extension = "";
-            this.Correo = "";
-            this.Fecha = DateTime.Now;
-            this.Tipo = "";
-            this.Estatus = "";
-        }
+        public virtual IEnumerable<Compras> Compras { get; set; } = new List<Compras>();
+
+        [ForeignKey("EmpresaId")]
+        public virtual Empresas? Empresas { get; set; } = new Empresas();
+
+        [ForeignKey("UsuarioId")]
+        public virtual Usuarios Usuarios { get; set; } = new Usuarios();
+
+        public virtual IEnumerable<Ventas> Ventas { get; set; } = new List<Ventas>();
     }
 }

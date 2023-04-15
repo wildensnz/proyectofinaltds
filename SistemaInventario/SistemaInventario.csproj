@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
     <PackageReference Include="System.IO.Hashing" Version="7.0.0" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.1" />
     <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Logs\" />
     <Folder Include="wwwroot\vendors\jeyvali\jquery-validate\ajxvali\" />
     <Folder Include="wwwroot\vendors\jeyvali\jquery-validate\vlli\" />
     <Folder Include="wwwroot\vendors\jey\" />

@@ -12,22 +12,18 @@ namespace InventarioModelo
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-        public string Accion { get; set; }
-        public int Rol_ID { get; set; }
-        public bool Activo { get; set; }
+        public int Id { get; set; }
+        [ForeignKey(nameof(Roles))]
+        public int RolId { get; set; }
+        public string Modulo { get; set; } = "";
         public DateTime Fecha { get; set; }
+        public bool Ver { get; set; }
+        public bool Agregar { get; set; }
+        public bool Modificar { get; set; }
+        public bool Eliminar { get; set; }
+        public bool Activo { get; set; }
 
-        [ForeignKey("Rol_ID")]
+
         public virtual Roles Roles { get; set; }
-
-        public RolPermisos()
-        {
-
-            this.Accion = "";
-            this.Activo = false;
-            this.Fecha = DateTime.Now;
-            this.Roles = new Roles();
-        }
     }
 }
